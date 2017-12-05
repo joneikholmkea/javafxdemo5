@@ -16,8 +16,8 @@ public class Main extends Application {
        launch(args);
     }
 
-    private ObservableList<Person2> persons = FXCollections.observableArrayList();
-    private TableView<Person2> tableView = new TableView<>();
+    private ObservableList<Person> persons = FXCollections.observableArrayList();
+    private TableView<Person> tableView = new TableView<>();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -29,8 +29,8 @@ public class Main extends Application {
         tableView.setEditable(true);
         TableColumn usernameCol = getUsernameColumn();
         TableColumn passwordCol = getPasswordColumn();
-        persons.add(new Person2(new SimpleStringProperty("anna"), new SimpleStringProperty("1234")));
-        persons.add(new Person2(new SimpleStringProperty("Ben"), new SimpleStringProperty("5432")));
+        persons.add(new Person(new SimpleStringProperty("anna"), new SimpleStringProperty("1234")));
+        persons.add(new Person(new SimpleStringProperty("Ben"), new SimpleStringProperty("5432")));
         tableView.setItems(persons);
         tableView.getColumns().addAll(usernameCol, passwordCol);
         vBox.getChildren().add(tableView);
@@ -47,18 +47,18 @@ public class Main extends Application {
         TextField addPasswordField = new TextField();
         Button addButton = new Button("Add User");
         addButton.setOnAction(event -> {
-            Person2 person2 = new Person2(new SimpleStringProperty(addUsernameField.getText()), new SimpleStringProperty(addPasswordField.getText()));
-            persons.add(person2);
+            Person person = new Person(new SimpleStringProperty(addUsernameField.getText()), new SimpleStringProperty(addPasswordField.getText()));
+            persons.add(person);
         });
         vBox.getChildren().addAll(addUsernameField, addPasswordField, addButton);
     }
 
     private TableColumn getUsernameColumn() {
         TableColumn usernameCol = new TableColumn("Username");
-        usernameCol.setCellValueFactory(new PropertyValueFactory<Person2, String>("username"));
+        usernameCol.setCellValueFactory(new PropertyValueFactory<Person, String>("username"));
         usernameCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        EventHandler<TableColumn.CellEditEvent<Person2, String>> usernameHandler = t -> {t.getTableView().getItems().get(
+        EventHandler<TableColumn.CellEditEvent<Person, String>> usernameHandler = t -> {t.getTableView().getItems().get(
                 t.getTablePosition().getRow()).setUsername(t.getNewValue());
         };
 
@@ -70,16 +70,16 @@ public class Main extends Application {
         TableColumn passwordCol = new TableColumn("Password");
         passwordCol.setCellFactory(TextFieldTableCell.forTableColumn());
         passwordCol.setOnEditCommit(
-                new EventHandler<TableColumn.CellEditEvent<Person2, String>>() {
+                new EventHandler<TableColumn.CellEditEvent<Person, String>>() {
                     @Override
-                    public void handle(TableColumn.CellEditEvent<Person2, String> t) {
+                    public void handle(TableColumn.CellEditEvent<Person, String> t) {
                          t.getTableView().getItems().get(
                                 t.getTablePosition().getRow()).setPassword(t.getNewValue());
                     }
                 }
         );
 
-        passwordCol.setCellValueFactory(new PropertyValueFactory<Person2, String>("password"));
+        passwordCol.setCellValueFactory(new PropertyValueFactory<Person, String>("password"));
         return passwordCol;
     }
 

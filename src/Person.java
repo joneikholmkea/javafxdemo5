@@ -1,6 +1,6 @@
 import javafx.beans.property.SimpleStringProperty;
 
-public class Person2 {
+public class Person {
 
     private final SimpleStringProperty username;
     private final SimpleStringProperty password;
@@ -29,7 +29,7 @@ public class Person2 {
         this.password.set(password);
     }
 
-    public Person2(SimpleStringProperty username, SimpleStringProperty password) {
+    public Person(SimpleStringProperty username, SimpleStringProperty password) {
         this.username = username;
         this.password = password;
     }
